@@ -1,4 +1,8 @@
 import BenefitCard from "./BenefitCard";
+import tracking from '../../../assets/benefits/Illustration.png';
+import call from '../../../assets/benefits/Group 4.png';
+import support from '../../../assets/benefits/Group 4.png';
+
 
 
 const Benefit = () => {
@@ -8,21 +12,21 @@ const Benefit = () => {
       title: "Live Parcel Tracking",
       description:
         "Stay updated in real-time with our live parcel tracking feature. From pick-up to delivery, monitor your shipment's journey and get instant status updates for complete peace of mind.",
-      image: "/src/assets/benefits/Illustration.png",
+      image: tracking,
     },
     {
       id: 2,
       title: "100% Safe Delivery",
       description:
         "We ensure your parcels are handled with the utmost care and delivered securely to their destination. Our reliable process guarantees safe and damage-free delivery every time.",
-      image: "/src/assets/benefits/Group 4.png",
+      image: call,
     },
     {
       id: 3,
       title: "24/7 Call Center Support",
       description:
         "Our dedicated support team is available around the clock to assist you with any questions, updates, or delivery concerns—anytime you need us.",
-      image: "/src//assets/benefits/Group 4.png",
+      image: support,
     },
   ];
 
