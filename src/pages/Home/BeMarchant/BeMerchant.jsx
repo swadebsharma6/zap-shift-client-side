@@ -1,9 +1,9 @@
 import location from '../../../assets/location-merchant.png'
 const BeMerchant = () => {
   return (
-    <section className='mb-20'>
+    <section data-aos="fade-left" className='mb-20'>
       <div className="max-w-7xl mx-auto px-4">
-        <div className="bg-[#03373D] rounded-3xl p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-10 text-white">
+        <div className="bg-secondary bg-[url('assets/be-a-merchant-bg.png')] bg-no-repeat rounded-3xl p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-10 text-white">
           
           
           <div className="md:w-1/2">
@@ -19,11 +19,11 @@ const BeMerchant = () => {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <button className="btn bg-[#C8F169] text-black hover:bg-[#b8e85d] border-none">
+              <button className="btn rounded-full bg-primary text-black hover:bg-primary border-none">
                 Become a Merchant
               </button>
 
-              <button className="btn btn-outline border-[#C8F169] text-[#C8F169] hover:bg-[#C8F169] hover:text-black">
+              <button className="btn rounded-full btn-outline border-primary text-primary hover:bg-primary hover:text-black">
                 Earn with ZapShift Courier
               </button>
             </div>

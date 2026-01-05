@@ -8,7 +8,7 @@ const Navbar = () => {
         <NavLink to="/">
           {({ isActive }) => (
             <span
-              className={isActive ? "text-primary font-bold underline" : ""}
+              className={isActive ? "text-black font-bold underline" : ""}
             >
               Home
             </span>
@@ -19,7 +19,7 @@ const Navbar = () => {
         <NavLink to="/about">
           {({ isActive }) => (
             <span
-              className={isActive ? "text-primary font-bold underline" : ""}
+              className={isActive ? "text-black font-bold underline" : ""}
             >
               About
             </span>

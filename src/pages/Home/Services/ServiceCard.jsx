@@ -1,9 +1,9 @@
 const ServiceCard = ({ service }) => {
       const {icon: Icon, title, description} = service;
   return (
-    <div className="card bg-base-100 hover:bg-[#CAEB66] shadow-md hover:shadow-xl transition duration-300">
+    <div data-aos="zoom-out-up" className="card bg-base-100 hover:bg-primary shadow-md hover:shadow-xl transition duration-300">
       <div className="card-body items-center text-center ">
-        <div className="text-4xl text-primary mb-4">
+        <div className="text-4xl text-blue-700 mb-4">
           <Icon />
         </div>
 

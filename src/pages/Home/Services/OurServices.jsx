@@ -51,7 +51,7 @@ const OurServices = () => {
   ];
 
   return (
-    <section className="py-20 bg-[rgba(3,55,61,1)] mb-20 rounded-2xl">
+    <section className="py-20 bg-secondary mb-20 rounded-2xl">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
