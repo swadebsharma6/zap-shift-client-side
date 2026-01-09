@@ -1,3 +1,4 @@
+
 import Banner from "../Banner/Banner";
 import BeMerchant from "../BeMarchant/BeMerchant";
 import Benefit from "../Benefits/Benefit";
@@ -9,6 +10,8 @@ import OurServices from "../Services/OurServices";
 
 
 const Home = () => {
+
+
       return (
             <div>
                   <Banner></Banner>

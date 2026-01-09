@@ -2,23 +2,41 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import SocialLogin from "../SocialLogin";
 
-const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+const Register = () => {
+       const {
+          register,
+          handleSubmit,
+          formState: { errors },
+        } = useForm();
+      
+        const onSubmit = (data) => {
+          console.log(data);
+        };
 
-  return (
-   <div>
-       <h2 className="text-3xl font-bold mb-2">Welcome Back</h2>
-          <p className="text-gray-500 mb-6">Login with ZapShift</p>
+      return (
+            <div>
+       <h2 className="text-3xl font-bold mb-2">Create an Account</h2>
+          <p className="text-gray-500 mb-6">Register with ZapShift</p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {/* Name */}
+            <div>
+              <label className="label">
+                <span className="label-text">Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Name"
+                className="input input-bordered w-full"
+                {...register("name", { required: "Name is required" })}
+              />
+              {errors.name && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.name.message}
+                </p>
+              )}
+            </div>
             {/* Email */}
             <div>
               <label className="label">
@@ -61,30 +79,26 @@ const Login = () => {
               )}
             </div>
 
-            {/* Forgot password */}
-            <div className="text-right">
-              <a href="#" className="text-sm text-gray-500 hover:underline">
-                Forgot Password?
-              </a>
-            </div>
 
             {/* Login button */}
             <button className="btn w-full bg-lime-400 hover:bg-lime-500 border-none text-black">
-              Login
+            Register
             </button>
           </form>
              {/* Register */}
           <p className="text-center text-sm mt-4">
-            Don't have any account?{" "}
-            <Link to='/register'  className="text-lime-500 font-medium">
-              Register
+           Already have an account?  
+            <Link to='/login'  className="text-lime-500 font-medium">
+               Login
             </Link>
           </p>
 
-          {/* SocialLogin */}
+          {/* socialLogin */}
           <SocialLogin></SocialLogin>
+
+          
    </div>
-  );
+      );
 };
 
-export default Login;
+export default Register;
