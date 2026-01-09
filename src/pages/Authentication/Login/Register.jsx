@@ -5,12 +5,8 @@ import useAuth from "../../../hooks/useAuth";
 
 
 const Register = () => {
-       const {
-          register,
-          handleSubmit,
-          formState: { errors },
-        } = useForm();
-        const {createUser} = useAuth();
+       const { register, handleSubmit, formState: { errors },} = useForm();
+       const {createUser} = useAuth();
         
       
         const onSubmit = (data) => {
