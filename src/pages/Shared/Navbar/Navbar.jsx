@@ -81,15 +81,15 @@ const Navbar = () => {
             {navLinks}
           </ul>
         </div>
-        <a className="btn-ghost text-xl">
+        <div className="btn-ghost text-xl">
             <ProFastLogo/>
-        </a>
+        </div>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navLinks}</ul>
       </div>
       <div className="navbar-end">
-      {user ?    <button onClick={handleLogOut} className="btn btn-secondary">LogOut</button> : <Link to='/login'><button className="btn btn-primary text-black">Login</button></Link> }
+      {user ?    <button onClick={handleLogOut} className="btn btn-secondary">LogOut</button> : <button className="btn btn-primary text-black"><Link to='/login'> Login </Link> </button> }
       </div>
     </div>
   );

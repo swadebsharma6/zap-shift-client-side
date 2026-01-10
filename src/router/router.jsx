@@ -14,7 +14,8 @@ export const router = createBrowserRouter([
       {index: true, Component: Home},
       {
         path:'coverage',
-        Component: Coverage
+        Component: Coverage,
+        loader: ()=> fetch('./warehouses.json')
       }
     ]
   },

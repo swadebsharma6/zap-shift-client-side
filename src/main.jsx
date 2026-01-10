@@ -5,6 +5,7 @@ import { RouterProvider } from "react-router/dom";
 import { router } from './router/router.jsx';
 import aos from 'aos';
 import 'aos/dist/aos.css';
+import 'leaflet/dist/leaflet.css';
 import AuthProvider from './AuthContext/AuthProvider.jsx';
 
 
