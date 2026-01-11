@@ -40,6 +40,17 @@ const Navbar = () => {
         </NavLink>
       </li>
       <li>
+        <NavLink to="/sendParcel">
+          {({ isActive }) => (
+            <span
+              className={isActive ? "text-black font-bold underline" : ""}
+            >
+              Send Parcel
+            </span>
+          )}
+        </NavLink>
+      </li>
+      <li>
         <NavLink to="/coverage">
           {({ isActive }) => (
             <span

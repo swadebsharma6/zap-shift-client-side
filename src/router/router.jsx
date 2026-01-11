@@ -6,6 +6,8 @@ import Login from "../pages/Authentication/Login/login";
 import Register from "../pages/Authentication/Login/Register";
 import Coverage from "../pages/Coverage/Coverage";
 import About from "../pages/About/About";
+import PrivetRoute from "../../../../Milestone11/bd-career-code-2025/src/router/PrivetRoute";
+import SendParcel from "../pages/SendParcel/SendParcel";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +23,10 @@ export const router = createBrowserRouter([
       {
         path: 'about',
         Component: About,
+      },
+      {
+        path: '/sendParcel',
+        element: <PrivetRoute><SendParcel/></PrivetRoute>
       }
     ]
   },
