@@ -1,31 +1,56 @@
-import { useForm, } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
+import { useLoaderData } from "react-router";
+import useAuth from "../../hooks/useAuth";
+
+const generateTrackingId = () => {
+  const date = new Date();
+  const datePart = date.toISOString().split("T")[0].replace(/-/g, "");
+  const rand = Math.random().toString(36).substring(2, 7).toUpperCase();
+  return `PLC-${datePart}-${rand}`;
+};
 
 const SendParcel = () => {
-      const {
+  const data = useLoaderData();
+  const { user } = useAuth();
+  const districts = [...new Set(data.map((item) => item.district))];
+
+  const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm({
     defaultValues: {
       parcelType: "document",
     },
   });
-  
-    const parcelType = watch("parcelType");
+
+  //  const parcelType = watch("parcelType");
+  const parcelType = useWatch({
+    control,
+    name: "parcelType",
+  });
 
   const onSubmit = (data) => {
-    console.log("Form Data:", data);
-    alert("Form submitted! Check console.");
+    const parcelData = {
+      ...data,
+      created_by: user.email,
+      payment_status: "unpaid",
+      delivery_status: "not_collected",
+      creation_date: new Date().toISOString(),
+      tracking_id: generateTrackingId(),
+    };
+
+    console.log(alert("process parcel"));
+    console.log(parcelData);
   };
-      return (
-         <div className="p-6">
+  return (
+    <div className="p-6">
       {/* Heading */}
       <h1 className="text-3xl font-bold text-teal-900">Send A Parcel</h1>
       <p className="text-gray-500 mt-1 mb-6">Enter your parcel details</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-
         {/* ================= Parcel Info ================= */}
         <div>
           <div className="flex gap-6 mb-4">
@@ -54,12 +79,16 @@ const SendParcel = () => {
             <div>
               <label className="label">Parcel Name</label>
               <input
-                {...register("parcelName", { required: "Parcel name required" })}
+                {...register("parcelName", {
+                  required: "Parcel name required",
+                })}
                 className="input input-bordered w-full"
                 placeholder="Parcel Name"
               />
               {errors.parcelName && (
-                <p className="text-red-500 text-sm">{errors.parcelName.message}</p>
+                <p className="text-red-500 text-sm">
+                  {errors.parcelName.message}
+                </p>
               )}
             </div>
 
@@ -78,7 +107,6 @@ const SendParcel = () => {
 
         {/* ================= Sender & Receiver ================= */}
         <div className="grid md:grid-cols-2 gap-10">
-
           {/* Sender */}
           <div>
             <h3 className="font-semibold mb-4">Sender Details</h3>
@@ -102,14 +130,17 @@ const SendParcel = () => {
                 className="input input-bordered w-full"
               />
 
+              {/* Sender District */}
               <select
                 {...register("senderDistrict", { required: true })}
                 className="select select-bordered w-full"
               >
                 <option value="">Select Sender District</option>
-                <option>Dhaka</option>
-                <option>Chattogram</option>
-                <option>Rajshahi</option>
+                {districts?.map((district) => (
+                  <option key={district} value={district}>
+                    {district}
+                  </option>
+                ))}
               </select>
 
               <textarea
@@ -143,14 +174,17 @@ const SendParcel = () => {
                 className="input input-bordered w-full"
               />
 
+              {/* Receiver District */}
               <select
                 {...register("receiverDistrict", { required: true })}
-                className="select select-bordered w-full"
+                className="select select-bordered w-full mt-4"
               >
                 <option value="">Select Receiver District</option>
-                <option>Dhaka</option>
-                <option>Khulna</option>
-                <option>Sylhet</option>
+                {districts?.map((district) => (
+                  <option key={district} value={district}>
+                    {district}
+                  </option>
+                ))}
               </select>
 
               <textarea
@@ -163,16 +197,14 @@ const SendParcel = () => {
         </div>
 
         {/* Footer */}
-        <p className="text-sm text-gray-500">
-          * PickUp Time 4pm-7pm Approx.
-        </p>
+        <p className="text-sm text-gray-500">* PickUp Time 4pm-7pm Approx.</p>
 
         <button className="btn bg-lime-400 hover:bg-lime-500 text-black">
           Proceed to Confirm Booking
         </button>
       </form>
     </div>
-      );
+  );
 };
 
 export default SendParcel;
