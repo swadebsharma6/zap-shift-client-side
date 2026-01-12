@@ -11,6 +11,7 @@ const SendParcel = () => {
       parcelType: "document",
     },
   });
+  
     const parcelType = watch("parcelType");
 
   const onSubmit = (data) => {
