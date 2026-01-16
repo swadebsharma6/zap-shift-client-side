@@ -1,6 +1,8 @@
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const generateTrackingId = () => {
   const date = new Date();
@@ -13,6 +15,7 @@ const SendParcel = () => {
   const data = useLoaderData();
   const { user } = useAuth();
   const districts = [...new Set(data.map((item) => item.district))];
+  const axiosSecure = useAxiosSecure();
 
   const {
     register,
@@ -41,8 +44,18 @@ const SendParcel = () => {
       tracking_id: generateTrackingId(),
     };
 
-    console.log(alert("process parcel"));
-    console.log(parcelData);
+    //Send parcel data to the server
+    axiosSecure.post("/parcels", parcelData).then((res) => {
+      console.log(res.data);
+      if (res.data.insertedId) {
+        Swal.fire({
+          position: "top",
+          title: "Parcel data added successfully",
+          icon: "success",
+          draggable: true,
+        });
+      }
+    });
   };
   return (
     <div className="p-6">

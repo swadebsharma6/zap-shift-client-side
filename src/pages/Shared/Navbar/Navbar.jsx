@@ -61,6 +61,22 @@ const Navbar = () => {
           )}
         </NavLink>
       </li>
+
+      {
+        user && <>
+         <li>
+        <NavLink to="/dashboard">
+          {({ isActive }) => (
+            <span
+              className={isActive ? "text-black font-bold underline" : ""}
+            >
+             Dashboard
+            </span>
+          )}
+        </NavLink>
+      </li>
+        </>
+      }
     </>
   );
 

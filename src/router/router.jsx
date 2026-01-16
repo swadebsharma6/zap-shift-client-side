@@ -8,6 +8,8 @@ import Coverage from "../pages/Coverage/Coverage";
 import About from "../pages/About/About";
 import PrivetRoute from "../../../../Milestone11/bd-career-code-2025/src/router/PrivetRoute";
 import SendParcel from "../pages/SendParcel/SendParcel";
+import DashboardLayout from "../layouts/DashboardLayout";
+import MyParcels from "../pages/Dsahboard/MyParcels/MyParcels";
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +44,16 @@ export const router = createBrowserRouter([
       {
         path:'register',
         Component: Register
+      }
+    ]
+  },
+  {
+    path: '/dashboard',
+    element: <PrivetRoute> <DashboardLayout/></PrivetRoute>,
+    children:[
+      {
+        path: 'myParcels',
+        Component: MyParcels
       }
     ]
   }
