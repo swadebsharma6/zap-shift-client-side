@@ -1,4 +1,5 @@
-import { Outlet } from "react-router";
+import { NavLink, Outlet } from "react-router";
+import ProFastLogo from './../pages/Shared/ProFastLogo/ProFastLogo';
 
 const DashboardLayout = () => {
   return (
@@ -37,13 +38,14 @@ const DashboardLayout = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-base-200 min-h-full w-80 p-4">
+        <ul className="menu bg-base-300 min-h-full w-80 p-4">
           {/* Sidebar content here */}
+          <ProFastLogo></ProFastLogo>
           <li>
-            <a>Sidebar Item 1</a>
+            <NavLink>Home</NavLink>
           </li>
           <li>
-            <a>Sidebar Item 2</a>
+            <NavLink to="/dashboard/myParcels">My Parcels</NavLink>
           </li>
         </ul>
       </div>
