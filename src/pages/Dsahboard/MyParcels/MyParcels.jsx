@@ -2,10 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const MyParcels = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   const { data: parcels = [], refetch } = useQuery({
     queryKey: ["my-parcels", user.email],
@@ -40,6 +42,10 @@ const MyParcels = () => {
       refetch();
     });
   };
+
+  const handlePay =(id)=>{
+    navigate(`/dashboard/payment/${id}`)
+  }
 
   return (
     <div>
@@ -85,7 +91,7 @@ const MyParcels = () => {
                 <td className="space-x-2">
                   <button className="btn btn-xs btn-info">View</button>
 
-                  <button className="btn btn-xs btn-secondary">Pay</button>
+                  <button onClick={() =>handlePay(parcel._id)} className="btn btn-xs btn-secondary">Pay</button>
 
                   <button
                     onClick={() => handleDelete(parcel._id)}

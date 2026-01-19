@@ -10,6 +10,7 @@ import PrivetRoute from "../../../../Milestone11/bd-career-code-2025/src/router/
 import SendParcel from "../pages/SendParcel/SendParcel";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyParcels from "../pages/Dsahboard/MyParcels/MyParcels";
+import Payment from "../pages/Dsahboard/Payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
       {
         path: 'myParcels',
         Component: MyParcels
+      },
+      {
+        path:'payment/:id',
+        Component: Payment
       }
     ]
   }
