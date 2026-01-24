@@ -1,52 +1,62 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useState } from "react";
+// import useAxiosSecure from './../../../hooks/useAxiosSecure';
+import { useParams } from "react-router";
 
 
 const PaymentForm = () => {
-      
-       const stripe = useStripe();
+  // const axiosSecure = useAxiosSecure();
+  const stripe = useStripe();
   const elements = useElements();
-  const [error,  setError] = useState("");
+  
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const price = 200;
 
-  const handleSubmit = async(e)=>{
-      e.preventDefault();
+  const {id }= useParams();
+ 
 
-      if(!stripe || !elements){
-            return;
-      }
+  const price = 80;
+   console.log(id, price)
 
-      const card = elements.getElement(CardElement);
-      if(card == null){
-            return;
-      }
+  const handleSubmit = async(e) => {
+    e.preventDefault();
 
-      const {error, paymentMethod} = await stripe.createPaymentMethod({
-            type: 'card',
-            card,
-      });
-      if(error){
-            console.log(error);
-            setError(error);
-      }else{
-            setError("");
-            setSuccess("Payment Successful 🎉");
-            console.log('paymentMethod', paymentMethod)
-      }
-  }
+    if (!stripe || !elements) {
+      return;
+    }
 
+    const card = elements.getElement(CardElement);
+    if (card == null) {
+      return;
+    }
 
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card,
+    });
+    if (error) {
+      setSuccess("");
+      setError(error.message);
+    } else {
+      setSuccess("Payment Successful 🎉");
+      setError("");
+      console.log("paymentMethod", paymentMethod);
+    }
 
-      return (
-            <div className="max-w-md mx-auto p-6 bg-base-100 shadow rounded">
+    // Create payment intent from here...
+
+    
+  };
+
+  return (
+    <div className=" p-6 bg-base-100 shadow rounded">
       <h2 className="text-xl font-bold mb-4">Pay ${price}</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <CardElement className="p-3 border rounded" />
 
         <button
-          className="btn btn-primary w-full mt-4"
+          className="btn btn-primary w-full mt-4 text-black"
           disabled={!stripe}
         >
           Pay Now
@@ -56,7 +66,7 @@ const PaymentForm = () => {
       {error && <p className="text-red-500 mt-2">{error}</p>}
       {success && <p className="text-green-500 mt-2">{success}</p>}
     </div>
-      );
+  );
 };
 
 export default PaymentForm;
