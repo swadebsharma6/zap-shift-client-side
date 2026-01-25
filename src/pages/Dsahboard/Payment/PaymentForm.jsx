@@ -1,22 +1,25 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useState } from "react";
-// import useAxiosSecure from './../../../hooks/useAxiosSecure';
+import useAxiosSecure from './../../../hooks/useAxiosSecure';
 import { useParams } from "react-router";
+import useAuth from './../../../hooks/useAuth';
 
 
 const PaymentForm = () => {
-  // const axiosSecure = useAxiosSecure();
+  const axiosSecure = useAxiosSecure();
   const stripe = useStripe();
   const elements = useElements();
+  const {user} = useAuth();
+  console.log(user)
   
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const {id }= useParams();
  
-
   const price = 80;
-   console.log(id, price)
+  const amountInCense = price *100;
+ 
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -44,6 +47,47 @@ const PaymentForm = () => {
     }
 
     // Create payment intent from here...
+   const res = await axiosSecure.post('/create-payment-intent', {
+    amountInCense,
+    id
+   });
+
+   const clientSecret = res.data.clientSecret;
+
+   const result = await stripe.confirmCardPayment(clientSecret, {
+    payment_method:{
+      card: elements.getElement(CardElement),
+      billing_details:{
+        name:user?.displayName,
+        email: user?.email
+      }
+    }
+   });
+
+   if(result.error){
+    setError(result.error.message)
+   }else{
+     setError('');
+    if(result.paymentIntent.status === 'succeeded'){
+      setSuccess('Payment succeeded !');
+       console.log(result)
+      // Step: 4 mark parcel paid also create payment history
+     const paymentData ={
+       parcelId: id,
+      email: user.email,
+      amount: price,
+      paymentMethod: result.paymentIntent.payment_method_types,
+      transactionId: result.paymentIntent.id,
+     }
+
+     const paymentRes = await axiosSecure.post('/payments', paymentData) ;
+     if(paymentRes.data.insertedId){
+      console.log('payment successfully')
+     }
+
+    }
+   }
+
 
     
   };
