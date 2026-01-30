@@ -3,108 +3,152 @@ import { Link } from "react-router";
 import SocialLogin from "../SocialLogin";
 import useAuth from "../../../hooks/useAuth";
 
+import avatar from "../../../assets/avatar.jpg";
+import axios from "axios";
+import { useState } from "react";
 
 const Register = () => {
-       const { register, handleSubmit, formState: { errors },} = useForm();
-       const {createUser} = useAuth();
-        
-      
-        const onSubmit = (data) => {
-          console.log(data);
-          createUser(data.email, data.password)
-          .then(result =>{
-              console.log(result.user)
-          })
-          .catch(error =>{
-            console.log(error.message)
-          })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const { createUser, updateUserProfile, user } = useAuth();
+  const [profilePic, setProfilePic] = useState("");
+
+  const onSubmit = (data) => {
+    console.log(data);
+    createUser(data.email, data.password)
+      .then((result) => {
+        console.log(result.user);
+        //update userInfo in the database
+
+        // update user profile Pic in firebase
+        const userProfile = {
+          displayName: data.name,
+          photoURL: profilePic,
         };
 
-      return (
-            <div>
-       <h2 className="text-3xl font-bold mb-2">Create an Account</h2>
-          <p className="text-gray-500 mb-6">Register with ZapShift</p>
+        updateUserProfile(userProfile)
+        .then(()=>{
+          console.log('Profile picture name uploaded')
+        })
+        .catch(error =>{
+          console.log(error.message)
+        })
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {/* Name */}
-            <div>
-              <label className="label">
-                <span className="label-text">Name</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Name"
-                className="input input-bordered w-full"
-                {...register("name", { required: "Name is required" })}
-              />
-              {errors.name && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.name.message}
-                </p>
-              )}
-            </div>
-            {/* Email */}
-            <div>
-              <label className="label">
-                <span className="label-text">Email</span>
-              </label>
-              <input
-                type="email"
-                placeholder="Email"
-                className="input input-bordered w-full"
-                {...register("email", { required: "Email is required" })}
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
+  const handleImage = async (e) => {
+    const image = e.target.files[0];
 
-            {/* Password */}
-            <div>
-              <label className="label">
-                <span className="label-text">Password</span>
-              </label>
-              <input
-                type="password"
-                placeholder="Password"
-                className="input input-bordered w-full"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message: "Minimum 6 characters",
-                  },
-                })}
-              />
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
+    const formData = new FormData();
+    formData.append("image", image);
 
+    const res = await axios.post(
+      `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_imagebb_key}`,
+      formData,
+    );
 
-            {/* Login button */}
-            <button className="btn w-full bg-lime-400 hover:bg-lime-500 border-none text-black">
-            Register
-            </button>
-          </form>
-             {/* Register */}
-          <p className="text-center text-sm mt-4">
-           Already have an account?  
-            <Link to='/login'  className="text-lime-500 font-medium">
-               Login
-            </Link>
-          </p>
+    setProfilePic(res.data.data.url);
+  };
 
-          {/* socialLogin */}
-          <SocialLogin></SocialLogin>
+  return (
+    <div>
+      <h2 className="text-3xl font-bold mb-2">Create an Account</h2>
+      <p className="text-gray-500 mb-6">Register with ZapShift</p>
+      <div className="flex justify-start mb-4">
+        <label className="cursor-pointer">
+         { user ? <img
+            src={user.photoURL}
+            className="w-10 h-10 rounded-full border"
+            alt="profile"
+          /> :<img
+            src={avatar}
+            className="w-10 h-10 rounded-full border"
+            alt="profile"
+          />}
 
-          
-   </div>
-      );
+          <input type="file" hidden accept="image/*" onChange={handleImage} />
+        </label>
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {/* Name */}
+        <div>
+          <label className="label">
+            <span className="label-text">Name</span>
+          </label>
+          <input
+            type="text"
+            placeholder="Name"
+            className="input input-bordered w-full"
+            {...register("name", { required: "Name is required" })}
+          />
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+          )}
+        </div>
+        {/* Email */}
+        <div>
+          <label className="label">
+            <span className="label-text">Email</span>
+          </label>
+          <input
+            type="email"
+            placeholder="Email"
+            className="input input-bordered w-full"
+            {...register("email", { required: "Email is required" })}
+          />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+          )}
+        </div>
+
+        {/* Password */}
+        <div>
+          <label className="label">
+            <span className="label-text">Password</span>
+          </label>
+          <input
+            type="password"
+            placeholder="Password"
+            className="input input-bordered w-full"
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Minimum 6 characters",
+              },
+            })}
+          />
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
+
+        {/* Login button */}
+        <button className="btn w-full bg-lime-400 hover:bg-lime-500 border-none text-black">
+          Register
+        </button>
+      </form>
+      {/* Register */}
+      <p className="text-center text-sm mt-4">
+        Already have an account?
+        <Link to="/login" className="text-lime-500 font-medium">
+          Login
+        </Link>
+      </p>
+
+      {/* socialLogin */}
+      <SocialLogin></SocialLogin>
+    </div>
+  );
 };
 
 export default Register;
