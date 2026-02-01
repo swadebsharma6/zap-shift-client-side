@@ -6,6 +6,7 @@ import useAuth from "../../../hooks/useAuth";
 import avatar from "../../../assets/avatar.jpg";
 import axios from "axios";
 import { useState } from "react";
+import useAxios from "../../../hooks/useAxios";
 
 const Register = () => {
   const {
@@ -15,13 +16,24 @@ const Register = () => {
   } = useForm();
   const { createUser, updateUserProfile, user } = useAuth();
   const [profilePic, setProfilePic] = useState("");
+  const axiosInstance = useAxios();
 
   const onSubmit = (data) => {
     console.log(data);
     createUser(data.email, data.password)
-      .then((result) => {
+      .then(async (result) => {
         console.log(result.user);
         //update userInfo in the database
+
+        const userInfo = {
+          email: data.email,
+          role: 'user' ,//default role
+          created_at: new Date().toISOString(),
+          last_log_in: new Date().toISOString()
+        }
+
+        const userRes = await axiosInstance.post('/users', userInfo);
+        console.log(userRes.data)
 
         // update user profile Pic in firebase
         const userProfile = {
@@ -52,7 +64,7 @@ const Register = () => {
       `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_imagebb_key}`,
       formData,
     );
-
+    console.log(res.data.data.url)
     setProfilePic(res.data.data.url);
   };
 

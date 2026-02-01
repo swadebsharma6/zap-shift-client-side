@@ -1,16 +1,28 @@
 import { useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
 
 const SocialLogin = () => {
 
   const {googleLogin} = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosInstance = useAxios();
 
   const handleGoogleLogin =()=>{
     googleLogin()
-    .then(result =>{
-      console.log('google', result.user);
+    .then( async(result) =>{
+      const user = result.user;
+       const userInfo = {
+          email: user.email,
+          role: 'user' ,//default role
+          created_at: new Date().toISOString(),
+          last_log_in: new Date().toISOString()
+        }
+
+       const res = await axiosInstance.post('/users', userInfo);
+       console.log('user update info',res.data)
+
 
        //Redirect after signin user
       navigate(location.state || '/');
