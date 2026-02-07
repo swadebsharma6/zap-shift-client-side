@@ -24,21 +24,19 @@ const PendingRiders = () => {
 
 
   // Approve rider
+
+
 const handleStatusChange = async (id, status) => {
   try {
-    await fetch(`http://localhost:3000/riders/status/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status }),
-    });
+    await axiosSecure.patch(`http://localhost:3000/riders/status/${id}`,
+      { status } // body
+    );
 
     // Reload data after update
     refetch();
 
   } catch (error) {
-    console.error("Update failed:", error);
+    console.error("Update failed:", error.response?.data || error.message);
   }
 };
 
