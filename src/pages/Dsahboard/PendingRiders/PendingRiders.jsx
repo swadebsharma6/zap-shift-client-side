@@ -26,10 +26,10 @@ const PendingRiders = () => {
   // Approve rider
 
 
-const handleStatusChange = async (id, status) => {
+const handleStatusChange = async (id, status, email) => {
   try {
     await axiosSecure.patch(`http://localhost:3000/riders/status/${id}`,
-      { status } // body
+      { status , email} // body
     );
 
     // Reload data after update
@@ -78,14 +78,14 @@ const handleStatusChange = async (id, status) => {
 
                 <td className="space-x-2">
                   <button
-                    onClick={() => handleStatusChange(rider._id, "approved")}
+                    onClick={() => handleStatusChange(rider._id, "approved", rider.email)}
                     className="btn btn-xs btn-success"
                   >
                     Approve
                   </button>
 
                   <button
-                    onClick={() => handleStatusChange(rider._id, "rejected")}
+                    onClick={() => handleStatusChange(rider._id, "rejected", rider.email)}
                     className="btn btn-xs btn-error"
                   >
                     Reject
