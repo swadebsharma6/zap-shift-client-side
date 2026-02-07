@@ -40,6 +40,17 @@ const Navbar = () => {
         </NavLink>
       </li>
       <li>
+        <NavLink to="/beRider">
+          {({ isActive }) => (
+            <span
+              className={isActive ? "text-black font-bold underline" : ""}
+            >
+             Be Rider
+            </span>
+          )}
+        </NavLink>
+      </li>
+      <li>
         <NavLink to="/sendParcel">
           {({ isActive }) => (
             <span

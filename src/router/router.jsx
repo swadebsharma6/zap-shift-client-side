@@ -14,6 +14,9 @@ import Payment from "../pages/Dsahboard/Payment/Payment";
 import PaymentHistory from "../pages/Dsahboard/PaymentHistory/PaymentHistory";
 import TrackParcel from "../pages/Dsahboard/TrackParcel/Trackparcel";
 import Profile from "../pages/Dsahboard/ProfileUpdate/Profile";
+import BeARider from "../pages/BeARider/BeARider";
+import ActiveRiders from "../pages/Dsahboard/ActiveRiders/ActiveRiders";
+import PendingRiders from "../pages/Dsahboard/PendingRiders/PendingRiders";
 
 export const router = createBrowserRouter([
   {
@@ -34,7 +37,12 @@ export const router = createBrowserRouter([
         path: '/sendParcel',
         element: <PrivetRoute><SendParcel/></PrivetRoute>,
          loader: ()=> fetch('./warehouses.json')
-      }
+      },
+      {
+        path: 'beRider',
+        element: <PrivetRoute><BeARider/></PrivetRoute>,
+         loader: ()=> fetch('./warehouses.json')
+      },
     ]
   },
   {
@@ -76,7 +84,12 @@ export const router = createBrowserRouter([
         Component: Profile 
       },
       {
-
+        path:'activeRiders',
+        Component: ActiveRiders 
+      },
+      {
+        path:'pendingRiders',
+        Component: PendingRiders 
       }
     ]
   }

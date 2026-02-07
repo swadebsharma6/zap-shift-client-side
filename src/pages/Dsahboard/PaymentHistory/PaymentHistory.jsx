@@ -10,8 +10,8 @@ const PaymentHistory = () => {
       const {user} = useAuth();
       const axiosSecure = useAxiosSecure();
 
-      const {isPending, data: payments} = useQuery({
-            queryKey: ['payments', user.email],
+      const {isPending, data: payments =[]} = useQuery({
+            queryKey: ['payments', user?.email],
             queryFn: async()=>{
                   const res = await axiosSecure.get(`/payments?email=${user.email}`);
 
@@ -26,7 +26,7 @@ const PaymentHistory = () => {
       return (
             <div className="p-6">
       <h2 className="text-2xl font-bold mb-5">
-        💳 Payment History ({payments.length})
+        💳 Payment History ({payments?.length})
       </h2>
 
       <div className="overflow-x-auto bg-base-100 rounded-xl shadow">
@@ -46,7 +46,7 @@ const PaymentHistory = () => {
 
           {/* Body */}
           <tbody>
-            {payments.map((pay, index) => (
+            {payments?.map((pay, index) => (
               <tr key={pay._id}>
                 <th>{index + 1}</th>
                 <td>{pay.parcelId}</td>
@@ -67,7 +67,7 @@ const PaymentHistory = () => {
         </table>
 
         {/* Empty State */}
-        {payments.length === 0 && (
+        {payments?.length === 0 && (
           <p className="text-center py-10 text-gray-400">
             No payment records found 😔
           </p>
